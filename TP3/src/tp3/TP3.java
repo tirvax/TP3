@@ -89,9 +89,14 @@ public class TP3 extends WindowAdapter implements ActionListener {
     private ActionListener ecouteurBoutonOk;
     private ActionListener ecouteurBoutonOk2;
     private ArrayList<Double> arrayMatrice;
+    private ArrayList<Double> arrayMatrice2;
     
     private JTextField [] cellules;
     private JTextField [] cellules2;
+    private JTextField [] cellulesPlus;
+    private JTextField [] cellulesPlus2;
+    private JTextField [] cellulesmoins;
+    private JTextField [] cellulesmoins2;
     private String nbLignesS;
     private String nbColonnesS;
     private int nbLignes;
@@ -154,9 +159,12 @@ public class TP3 extends WindowAdapter implements ActionListener {
         this.nom = nom;
         this.nbLignes = nbLignes;
         this.nbColonnes= nbColonnes;
+        this.arrayMatrice = new ArrayList<Double>();
         
         for (int i = 0; i < nbLignes * nbColonnes; i++ ) {
+            
             this.arrayMatrice.add(i, matrice.get(i));
+        
         }
     }
     /**
@@ -167,14 +175,16 @@ public class TP3 extends WindowAdapter implements ActionListener {
         this.nbLignes = nbLignes;
         this.nbColonnes= nbColonnes;
         this.arrayMatrice = new ArrayList<Double>();
+        
         for (int i = 0; i < nbLignes * nbColonnes; i++ ) {
             
             this.arrayMatrice.add(i, 0.0);
-            
+        
         }
     }
     
-    
+    TP3 nouvelleMatrice2;
+    TP3 nouvelleMatrice;
     /**
     * Initialisation des composants graphiques.
     */
@@ -506,7 +516,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
        //TODO...
     }
     
-    private void nouvelle() {
+    public void nouvelle() {
         
         boutonNouvelle.setSelected(true);
         texteZone1Depart.setVisible(false);
@@ -575,7 +585,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
           
         boutonOk.addActionListener(ecouteurBoutonOk);
     }
-    private void nouvelle2() {
+    public void nouvelle2() {
         
         boutonNouvelle2.setSelected(true);
         texteZone2Depart.setVisible(false);
@@ -645,7 +655,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
         boutonOk2.addActionListener(ecouteurBoutonOk2);
     }
 
-    private void ok() {
+    public void ok() {
         
         boutonEditer.setVisible(false);
         choixNombreLC.setVisible(false);
@@ -665,13 +675,12 @@ public class TP3 extends WindowAdapter implements ActionListener {
         
         
         cellules = new JTextField [nbLignes * nbColonnes];
-        TP3 nouvelleMatrice = new TP3("baba", nbLignes, nbColonnes);
+        nouvelleMatrice = new TP3("baba", nbLignes, nbColonnes);
         
         for (int i = 0; i < nouvelleMatrice.arrayMatrice.size() ; i++) {
             cellules[i] = new JTextField();
             cellules[i].setText(String.valueOf(nouvelleMatrice.arrayMatrice.get(i)));
             cellules[i].setFont(new Font("Courier", Font.PLAIN, 12));
-            //cellules[i].setText("0.0");
             cellules[i].setHorizontalAlignment(SwingConstants.LEFT);
             cellules[i].setBackground(Color.YELLOW);
                     
@@ -679,7 +688,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
             
         }
     }
-        private void ok2() {
+    public void ok2() {
         
         boutonEditer2.setVisible(false);
         choixNombreLC2.setVisible(false);
@@ -698,119 +707,186 @@ public class TP3 extends WindowAdapter implements ActionListener {
         zone2.add(grilleMatrice2);
         
         
-        JTextField [] cellules2 = new JTextField [nbLignes * nbColonnes];
-        TP3 nouvelleMatrice2 = new TP3("bababa", nbLignes, nbColonnes);
+        cellules2 = new JTextField [nbLignes * nbColonnes];
+        nouvelleMatrice2 = new TP3("tatata", nbLignes, nbColonnes);
                 
-        for (int i = 0; i < cellules2.length ; i++) {
+        for (int i = 0; i < nouvelleMatrice2.arrayMatrice.size() ; i++) {
             cellules2[i] = new JTextField();
+            cellules2[i].setText(String.valueOf(nouvelleMatrice2.arrayMatrice.get(i)));
             cellules2[i].setFont(new Font("Courier", Font.PLAIN, 12));
-            cellules2[i].setText("0.0");
             cellules2[i].setHorizontalAlignment(SwingConstants.LEFT);
             cellules2[i].setBackground(Color.YELLOW);
                     
             grilleMatrice2.add(cellules2[i]);
-            
         }
-      }
-    private void ajouterLigne() {
+    }
         
-//        if (nbLignes < 8){
-//            
-//            nbLignes = nbLignes + 1;
-//            
-//            grilleMatricePlus = new JPanel(new GridLayout(nbLignes, nbColonnes, 5, 6));  
-//            grilleMatricePlus.setBounds( (zone1.getWidth()/2)- (nbColonnes * 48 / 2), 
-//            (zone1.getHeight()/3)- (nbLignes * 25 / 5), nbColonnes * 48, nbLignes * 25);
-//            DecimalFormat df = new DecimalFormat("0.0###");
-//
-//            JTextField [] cellulesPlus = new JTextField[nbLignes * nbColonnes];
-//            for (int i = 0 ; i < ((nbLignes - 1) * nbColonnes) ; i++) {
-//                cellulesPlus[i] = new JTextField();
-//                cellulesPlus[i].setFont(new Font("Courier", Font.PLAIN, 12));
-//                cellulesPlus[i].setText(df.format(Double.parseDouble(cellules[i].getText())));
-//                cellulesPlus[i].setHorizontalAlignment(SwingConstants.LEFT);
-//                cellulesPlus[i].setBackground(Color.YELLOW);
-//                
-//                grilleMatricePlus.add(cellulesPlus[i]);
-//            }
-//            
-//            for (int i = (nbLignes - 1) * nbColonnes ; i < ((nbLignes - 1) * nbColonnes) + nbColonnes ; i++) {
-//                cellulesPlus[i] = new JTextField();
-//                cellulesPlus[i].setFont(new Font("Courier", Font.PLAIN, 12));
-//                cellulesPlus[i].setText("0.0");
-//                cellulesPlus[i].setHorizontalAlignment(SwingConstants.LEFT);
-//                cellulesPlus[i].setBackground(Color.YELLOW);
-//
-//                grilleMatricePlus.add(cellulesPlus[i]);
-//            }
-//            
-//            grilleMatrice.setVisible(false);
-//            
-//            zone1.add(grilleMatricePlus);
-//            
-//            grilleMatrice = grilleMatricePlus;
-//            
-//            cellules = new JTextField [nbLignes * nbColonnes];
-//            for (int i = 0 ; i < (nbLignes * nbColonnes); i++) {
-//                cellules[i] = cellulesPlus[i];
-//            }
-//        } else {
-//            JOptionPane.showMessageDialog(null, "La matrice ne peut contenir plus de 8 lignes!");
-//        }
+    public void ajouterLigne() {
+        
+        if (nbLignes < 8){
+            
+            for (int i = 0; i < nbLignes * nbColonnes; i++) {
+                nouvelleMatrice.arrayMatrice.set(i,Double.parseDouble(cellules[i].getText()));
+            } 
+            nbLignes = nbLignes + 1;
+            
+            grilleMatricePlus = new JPanel(new GridLayout(nbLignes, nbColonnes, 5, 6));  
+            grilleMatricePlus.setBounds( (zone1.getWidth()/2)- (nbColonnes * 48 / 2), 
+            (zone1.getHeight()/3)- (nbLignes * 25 / 5), nbColonnes * 48, nbLignes * 25);
+            DecimalFormat df = new DecimalFormat("0.0###");
+            
+            cellulesPlus = new JTextField[nbLignes * nbColonnes];
+            for (int i = 0 ; i < ((nbLignes - 1) * nbColonnes) ; i++) {
+                cellulesPlus[i] = new JTextField();
+                cellulesPlus[i].setFont(new Font("Courier", Font.PLAIN, 12));
+                cellulesPlus[i].setText(String.valueOf(nouvelleMatrice.arrayMatrice.get(i)));
+                cellulesPlus[i].setHorizontalAlignment(SwingConstants.LEFT);
+                cellulesPlus[i].setBackground(Color.YELLOW);
+                
+                grilleMatricePlus.add(cellulesPlus[i]);
+            }
+            
+            for (int i = (nbLignes - 1) * nbColonnes ; i < ((nbLignes - 1) * nbColonnes) + nbColonnes ; i++) {
+                cellulesPlus[i] = new JTextField();
+                cellulesPlus[i].setFont(new Font("Courier", Font.PLAIN, 12));
+                cellulesPlus[i].setText("0.0");
+                cellulesPlus[i].setHorizontalAlignment(SwingConstants.LEFT);
+                cellulesPlus[i].setBackground(Color.YELLOW);
+
+                grilleMatricePlus.add(cellulesPlus[i]);
+                nouvelleMatrice.arrayMatrice.add(i, 0.0);
+            }
+            
+            grilleMatrice.setVisible(false);
+            
+            zone1.add(grilleMatricePlus);
+            
+            grilleMatrice = grilleMatricePlus;
+            
+            cellules = new JTextField [nbLignes * nbColonnes];
+            for (int i = 0 ; i < (nbLignes * nbColonnes); i++) {
+                cellules[i] = cellulesPlus[i];
+                nouvelleMatrice.arrayMatrice.set(i, Double.parseDouble(cellules[i].getText())); 
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "La matrice ne peut contenir plus de 8 lignes!");
+        }
+    }
+    public void ajouterLigne2() {
+        
+        if (nbLignes2 < 8){
+            
+            for (int i = 0; i < nbLignes2 * nbColonnes2; i++) {
+                nouvelleMatrice2.arrayMatrice.set(i,Double.parseDouble(cellules2[i].getText()));
+            } 
+            
+            nbLignes2 = nbLignes2 + 1;
+            
+            grilleMatricePlus2 = new JPanel(new GridLayout(nbLignes2, nbColonnes2, 5, 6));  
+            grilleMatricePlus2.setBounds( (zone2.getWidth()/2)- (nbColonnes2 * 48 / 2), 
+            (zone2.getHeight()/3)- (nbLignes2 * 25 / 5), nbColonnes2 * 48, nbLignes2 * 25);
+            DecimalFormat df = new DecimalFormat("0.0###");
+            
+            cellulesPlus2 = new JTextField[nbLignes2 * nbColonnes2];
+            for (int i = 0 ; i < ((nbLignes2 - 1) * nbColonnes2) ; i++) {
+                cellulesPlus2[i] = new JTextField();
+                cellulesPlus2[i].setFont(new Font("Courier", Font.PLAIN, 12));
+                cellulesPlus2[i].setText(String.valueOf(nouvelleMatrice2.arrayMatrice.get(i)));
+                cellulesPlus2[i].setHorizontalAlignment(SwingConstants.LEFT);
+                cellulesPlus2[i].setBackground(Color.YELLOW);
+                
+                grilleMatricePlus2.add(cellulesPlus2[i]);
+            }
+            
+            for (int i = (nbLignes2 - 1) * nbColonnes2 ; i < ((nbLignes2 - 1) * nbColonnes2) + nbColonnes2 ; i++) {
+                cellulesPlus2[i] = new JTextField();
+                cellulesPlus2[i].setFont(new Font("Courier", Font.PLAIN, 12));
+                cellulesPlus2[i].setText("0.0");
+                cellulesPlus2[i].setHorizontalAlignment(SwingConstants.LEFT);
+                cellulesPlus2[i].setBackground(Color.YELLOW);
+
+                grilleMatricePlus2.add(cellulesPlus2[i]);
+                nouvelleMatrice2.arrayMatrice.add(i, 0.0);
+            }
+            
+            grilleMatrice.setVisible(false);
+            
+            zone1.add(grilleMatricePlus);
+            
+            grilleMatrice = grilleMatricePlus;
+            
+            cellules = new JTextField [nbLignes * nbColonnes];
+            for (int i = 0 ; i < (nbLignes * nbColonnes); i++) {
+                cellules[i] = cellulesPlus[i];
+                nouvelleMatrice.arrayMatrice.set(i, Double.parseDouble(cellules[i].getText())); 
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "La matrice ne peut contenir plus de 8 lignes!");
+        }
     }
     
     private void ajouterColonne(){  
           
-//        if (nbColonnes < 8){
-//            nbColonnes = nbColonnes + 1;
-//            
-//            grilleMatricePlus = new JPanel(new GridLayout(nbLignes, nbColonnes, 5, 6));  
-//            grilleMatricePlus.setBounds((zone1.getWidth()/2) - (nbColonnes * 48 / 2), 
-//            (zone1.getHeight()/3)- (nbLignes * 25 / 5), nbColonnes * 48, nbLignes * 25);
-//    
-//            JTextField [] cellulesPlus = new JTextField[nbLignes * nbColonnes];
-//            int k = 0;
-//            int s = 0;
-//            int temp = 0;
-//            DecimalFormat df = new DecimalFormat("0.0###");
-//            
-//            for(int i = 0; i < (nbLignes * nbColonnes) ; i++){
-//                            
-//                if ((k < (nbLignes * (nbColonnes - 1))) && (temp != ((nbColonnes * (s+1)) - 1) || temp == 0) ){
-//                    cellulesPlus[i] = new JTextField();
-//                    cellulesPlus[i].setFont(new Font("Courier", Font.PLAIN, 12));
-//                    cellulesPlus[i].setText(df.format(Double.parseDouble(cellules[k].getText())));
-//                    cellulesPlus[i].setHorizontalAlignment(SwingConstants.LEFT);
-//                    cellulesPlus[i].setBackground(Color.YELLOW);
-//                    grilleMatricePlus.add(cellulesPlus[i]);
-//                    k = k + 1;
-//                    temp = temp + 1;
-//                } else {
-//                    cellulesPlus[i] = new JTextField();
-//                    cellulesPlus[i].setFont(new Font("Courier", Font.PLAIN, 12));
-//                    cellulesPlus[i].setText("0.0");
-//                    cellulesPlus[i].setHorizontalAlignment(SwingConstants.LEFT);
-//                    cellulesPlus[i].setBackground(Color.YELLOW);
-//                    grilleMatricePlus.add(cellulesPlus[i]);
-//                    s = s + 1;
-//                    temp = temp + 1;
-//                }
-//          
-//            }
-//            
-//            grilleMatrice.setVisible(false);
-//            
-//            grilleMatrice = grilleMatricePlus;
-//            
-//            zone1.add(grilleMatricePlus);
-//            
-//            cellules = new JTextField [nbLignes * nbColonnes];
-//            for (int i = 0 ; i < (nbLignes * nbColonnes); i++) {
-//                cellules[i] = cellulesPlus[i];
-//            }
-//        } else {
-//            JOptionPane.showMessageDialog(null, "La matrice ne peut contenir plus de 8 colonnes!");
-//        }
+        if (nbColonnes < 8){
+            
+            for (int i = 0; i < nouvelleMatrice.arrayMatrice.size(); i++) {
+                nouvelleMatrice.arrayMatrice.set(i,Double.parseDouble(cellules[i].getText()));
+            }
+            
+           
+            
+            grilleMatricePlus = new JPanel(new GridLayout(nbLignes, nbColonnes, 5, 6));  
+            grilleMatricePlus.setBounds((zone1.getWidth()/2) - (nbColonnes * 48 / 2), 
+            (zone1.getHeight()/3)- (nbLignes * 25 / 5), nbColonnes * 48, nbLignes * 25);
+    
+            JTextField [] cellulesPlus = new JTextField[nbLignes * nbColonnes];
+            int k = 0;
+            int s = 0;
+            int temp = 0;
+            DecimalFormat df = new DecimalFormat("0.0###");
+            
+            for(int i = 0; i < nouvelleMatrice.arrayMatrice.size() ; i++){
+                            
+                if ((k < (nbLignes * (nbColonnes - 1))) && (temp != ((nbColonnes * (s+1)) - 1) || temp == 0) ){
+                    System.out.println("if");
+                    cellulesPlus[i] = new JTextField();
+                    cellulesPlus[i].setFont(new Font("Courier", Font.PLAIN, 12));
+                    cellulesPlus[i].setText(df.format(nouvelleMatrice.arrayMatrice.get(i)));
+                    cellulesPlus[i].setHorizontalAlignment(SwingConstants.LEFT);
+                    cellulesPlus[i].setBackground(Color.YELLOW);
+                    grilleMatricePlus.add(cellulesPlus[i]);
+                    
+                    k = k + 1;
+                    temp = temp + 1;
+                } else {
+                    System.out.println("else");
+                    cellulesPlus[i] = new JTextField();
+                    cellulesPlus[i].setFont(new Font("Courier", Font.PLAIN, 12));
+                    cellulesPlus[i].setText("0.0");
+                    cellulesPlus[i].setHorizontalAlignment(SwingConstants.LEFT);
+                    cellulesPlus[i].setBackground(Color.YELLOW);
+                    grilleMatricePlus.add(cellulesPlus[i]);
+                    nouvelleMatrice2.arrayMatrice.add(i, 0.0);
+                    s = s + 1;
+                    temp = temp + 1;
+                }
+          
+            }
+            nbColonnes = nbColonnes + 1;
+            grilleMatrice.setVisible(false);
+            
+            grilleMatrice = grilleMatricePlus;
+            
+            zone1.add(grilleMatricePlus);
+            
+            cellules = new JTextField [nbLignes * nbColonnes];
+            for (int i = 0 ; i < nouvelleMatrice.arrayMatrice.size(); i++) {
+                cellules[i] = cellulesPlus[i];
+                nouvelleMatrice.arrayMatrice.set(i, Double.parseDouble(cellules[i].getText()));
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "La matrice ne peut contenir plus de 8 colonnes!");
+        }
     }
     
     private void supprimerLigne() {
