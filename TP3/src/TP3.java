@@ -181,6 +181,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
     private JPanel grilleResultat;
     private JPanel grilleTransposee;
     private JPanel grilleTransposee2;
+    private JPanel grilleMultPar;
+    private JPanel grilleMultPar2;
     private JPanel demandeNom;
    
  
@@ -1510,7 +1512,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
         grilleMatrice2 = grilleTransposee2;
         
     }
-    private void multpar(double ) {
+    private void multpar(double nombre) {
         double resultat = 0;
         
         for (int i = 0; i < nouvelleMatrice.elements.size(); i++) {
@@ -1519,8 +1521,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
         }
         cellules = new JTextField[nbLignes *nbColonnes];
         
-        grilleTransposee = new JPanel(new GridLayout(nbLignes, nbColonnes, 5, 6));  
-        grilleTransposee.setBounds( (zone2.getWidth()/2)- (nbColonnes * 48 / 2), 
+        grilleMultPar = new JPanel(new GridLayout(nbLignes, nbColonnes, 5, 6));  
+        grilleMultPar.setBounds( (zone2.getWidth()/2)- (nbColonnes * 48 / 2), 
         (zone4.getHeight()/3)- (nbLignes * 25 / 5), nbColonnes * 48, nbLignes * 25);
 
         for (int i = 0 ; i < nbLignes*nbColonnes; i++) {
@@ -1529,11 +1531,11 @@ public class TP3 extends WindowAdapter implements ActionListener {
             cellules[i].setText(Double.toString(nouvelleMatrice.elements.get(i)));
             cellules[i].setHorizontalAlignment(SwingConstants.LEFT);
             cellules[i].setBackground(Color.YELLOW);
-            grilleTransposee.add(cellules[i]);
+            grilleMultPar.add(cellules[i]);
         }
         grilleMatrice2.setVisible(false);
-        zone2.add(grilleTransposee2);
-        grilleMatrice2 = grilleTransposee;
+        zone2.add(grilleMultPar);
+        grilleMatrice2 = grilleMultPar;
     }
     private void multpar2(double nombre) {
        double resultat = 0;
@@ -1542,6 +1544,23 @@ public class TP3 extends WindowAdapter implements ActionListener {
            resultat = nombre*nouvelleMatrice2.elements.get(i);
            nouvelleMatrice2.elements.set(i, resultat);
        }
+       cellules2 = new JTextField[nbLignes2 *nbColonnes2];
+        
+        grilleMultPar2 = new JPanel(new GridLayout(nbLignes2, nbColonnes2, 5, 6));  
+        grilleMultPar2.setBounds( (zone2.getWidth()/2)- (nbColonnes2 * 48 / 2), 
+        (zone4.getHeight()/3)- (nbLignes2 * 25 / 5), nbColonnes2 * 48, nbLignes2 * 25);
+        
+        for (int i = 0 ; i < nbLignes2*nbColonnes2; i++) {
+            cellules2[i] = new JTextField();
+            cellules2[i].setFont(new Font("Courier", Font.PLAIN, 12));
+            cellules2[i].setText(Double.toString(nouvelleMatrice2.elements.get(i)));
+            cellules2[i].setHorizontalAlignment(SwingConstants.LEFT);
+            cellules2[i].setBackground(Color.YELLOW);
+            grilleMultPar2.add(cellules2[i]);
+        }
+        grilleMatrice2.setVisible(false);
+        zone2.add(grilleMultPar2);
+        grilleMatrice2 = grilleMultPar2;
     }
     
     /**
