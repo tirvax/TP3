@@ -118,6 +118,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
     private JTextField [] cellulesAddition;
     
     private JTextField nomSaisi;
+    private JTextField nomSaisi2;
     
     
     private String [] listeNomMatrice;
@@ -184,6 +185,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
     private JPanel grilleMultPar;
     private JPanel grilleMultPar2;
     private JPanel demandeNom;
+    private JPanel demandeNom2;
    
  
 
@@ -1426,7 +1428,41 @@ public class TP3 extends WindowAdapter implements ActionListener {
         demandeNom.add(boutonOkSauv);
         
     }
-    
+    public void sauvegarder2(){
+        
+        for (int i = 0; i < nouvelleMatrice2.elements.size(); i++) {
+            nouvelleMatrice2.elements.set(i,Double.parseDouble(cellules2[i].getText()));
+        }
+        
+        boutonSauvegarder2.setVisible(false);
+        boutonEditer2.setVisible(true);
+        grilleMatrice2.setVisible(false);
+        demandeNom2 = new JPanel(null);
+        demandeNom2.setVisible(true);
+        demandeNom2.setBounds(100, 100, (LARG_FENETRE/4) * 2,HAUT_FENETRE/7);
+        ((JPanel)demandeNom2).setBorder(new LineBorder(Color.BLACK));
+        demandeNom2.setLayout(null);
+        zone2.add(demandeNom2);
+        
+        nouveauNom2 = new JLabel();
+        nouveauNom2.setText("Nouveau nom :"); 
+        nouveauNom2.setBounds(10, 15, 200, 20);
+        demandeNom2.add(nouveauNom2);
+        nomSaisi2 = new JTextField();
+        nomSaisi2.setBounds(110, 15, 140, 20);
+        nomSaisi2.setEditable(true);
+        demandeNom2.add(nomSaisi2);
+        
+        nouvelleMatrice2.nom = nomSaisi2.getText();
+        
+        tableauMatrice.add(nouvelleMatrice2);
+        
+        JButton boutonOkSauv2 = new JButton("Ok");
+        boutonOkSauv2.setBackground(Color.WHITE);
+        boutonOkSauv2.setBounds(150, 58, 50, 20);
+        demandeNom2.add(boutonOkSauv2);
+        
+    }
     public double getElement (int noLigne, int noCol) { 
         
         int position;
