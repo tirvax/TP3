@@ -442,14 +442,14 @@ public class TP3 extends WindowAdapter implements ActionListener {
         boutonAddition.setBackground(Color.WHITE);
         boutonAddition.setBounds(((zone3.getWidth())- 35)/2, (zone3.getHeight()/2)-40, 35, 25);
         boutonAddition.setBorder(null);
-        boutonAddition.setEnabled(true);
+        boutonAddition.setEnabled(false);
         boutonAddition.setVisible(true);
         zone3.add(boutonAddition);
         boutonMultiplication = new JButton(" x ");
         boutonMultiplication.setBackground(Color.WHITE);
         boutonMultiplication.setBounds(((zone3.getWidth())- 35)/2, (zone3.getHeight()/2)+ 20, 35, 25);
         boutonMultiplication.setBorder(null);
-        boutonMultiplication.setEnabled(true);
+        boutonMultiplication.setEnabled(false);
         zone3.add(boutonMultiplication);
         fenetre.getContentPane().add(zone3);
         
@@ -629,6 +629,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
             public void actionPerformed(ActionEvent evenement) {
 
                nouvelle();
+               boutonMultiplication.setEnabled(true);
+               boutonAddition.setEnabled(true);
             }
         };
           
@@ -639,6 +641,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
             public void actionPerformed(ActionEvent evenement) {
 
                ajouterLigne();
+               boutonMultiplication.setEnabled(true);
+               boutonAddition.setEnabled(true);
             }
         };
           
@@ -649,6 +653,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
             public void actionPerformed(ActionEvent evenement) {
 
                ajouterColonne();
+               boutonMultiplication.setEnabled(true);
+               boutonAddition.setEnabled(true);
             }
         };
           
@@ -659,6 +665,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
             public void actionPerformed(ActionEvent evenement) {
 
                supprimerLigne();
+               boutonMultiplication.setEnabled(true);
+               boutonAddition.setEnabled(true);
             }
         };
           
@@ -669,6 +677,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
             public void actionPerformed(ActionEvent evenement) {
 
                supprimerColonne();
+               boutonMultiplication.setEnabled(true);
+               boutonAddition.setEnabled(true);
             }
         };
           
@@ -679,6 +689,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
             public void actionPerformed(ActionEvent evenement) {
 
                nouvelle2();
+               boutonMultiplication.setEnabled(true);
+               boutonAddition.setEnabled(true);
             }
         };
           
@@ -689,6 +701,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
             public void actionPerformed(ActionEvent evenement) {
 
                ajouterLigne2();
+               boutonMultiplication.setEnabled(true);
+               boutonAddition.setEnabled(true);
             }
         };
           
@@ -699,6 +713,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
             public void actionPerformed(ActionEvent evenement) {
 
                ajouterColonne2();
+               boutonMultiplication.setEnabled(true);
+               boutonAddition.setEnabled(true);
             }
         };
           
@@ -709,6 +725,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
             public void actionPerformed(ActionEvent evenement) {
 
                supprimerLigne2();
+               boutonMultiplication.setEnabled(true);
+               boutonAddition.setEnabled(true);
             }
         };
           
@@ -719,6 +737,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
             public void actionPerformed(ActionEvent evenement) {
 
                supprimerColonne2();
+               boutonMultiplication.setEnabled(true);
+               boutonAddition.setEnabled(true);
             }
         };
           
@@ -729,6 +749,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
             public void actionPerformed(ActionEvent evenement) {
 
                addition();
+               boutonMultiplication.setEnabled(true);
+               boutonAddition.setEnabled(true);
             }
         };
           
@@ -739,6 +761,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
             public void actionPerformed(ActionEvent evenement) {
 
                multiplication();
+               boutonMultiplication.setEnabled(true);
+               boutonAddition.setEnabled(true);
             }
         };
           
@@ -749,6 +773,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
             public void actionPerformed(ActionEvent evenement) {
 
                transposee();
+               boutonMultiplication.setEnabled(true);
+               boutonAddition.setEnabled(true);
             }
         };
         boutonTransposee.addActionListener(ecouteurBoutonTransposee);
@@ -758,6 +784,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
             public void actionPerformed(ActionEvent evenement) {
 
                transposee2();
+               boutonMultiplication.setEnabled(true);
+               boutonAddition.setEnabled(true);
             }
         };
         boutonTransposee2.addActionListener(ecouteurBoutonTransposee2);
@@ -767,6 +795,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
             public void actionPerformed(ActionEvent evenement) {
 
                supprimerMatrice();
+               boutonMultiplication.setEnabled(true);
+               boutonAddition.setEnabled(true);
             }
         };
         boutonSupprimerMatrice.addActionListener(ecouteurBoutonSupprimerMatrice);
@@ -776,6 +806,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
             public void actionPerformed(ActionEvent evenement) {
 
                supprimerMatrice2();
+               boutonMultiplication.setEnabled(true);
+               boutonAddition.setEnabled(true);
             }
         };
         boutonSupprimerMatrice2.addActionListener(ecouteurBoutonSupprimerMatrice2);
@@ -785,6 +817,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
             public void actionPerformed(ActionEvent evenement) {
 
                editer();
+               boutonMultiplication.setEnabled(true);
+               boutonAddition.setEnabled(true);
             }
         };
         boutonEditer.addActionListener(ecouteurBoutonEditer);
@@ -794,6 +828,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
             public void actionPerformed(ActionEvent evenement) {
 
                editer2();
+               boutonMultiplication.setEnabled(true);
+               boutonAddition.setEnabled(true);
             }
         };
         boutonEditer2.addActionListener(ecouteurBoutonEditer2);
@@ -803,6 +839,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
             public void actionPerformed(ActionEvent evenement) {
 
                multpar(Double.parseDouble(multReponse.getText()));
+               boutonMultiplication.setEnabled(true);
+               boutonAddition.setEnabled(true);
             }
         };
         boutonMultPar.addActionListener(ecouteurBoutonMultPar);
@@ -812,6 +850,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
             public void actionPerformed(ActionEvent evenement) {
 
                multpar2(Double.parseDouble(multReponse2.getText()));
+               boutonMultiplication.setEnabled(true);
+               boutonAddition.setEnabled(true);
             }
         };
         boutonMultPar2.addActionListener(ecouteurBoutonMultPar2);
