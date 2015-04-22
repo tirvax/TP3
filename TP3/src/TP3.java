@@ -72,8 +72,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
     private JComboBox nbColonnesReponse;
     private JComboBox nbLignesReponse2;
     private JComboBox nbColonnesReponse2;
-    private JComboBox listeMatricesEditees;
-    private JComboBox listeMatricesEditees2;
+    private JComboBox listeMatricesPlus;
+    private JComboBox listeMatricesPlus2;
     
     private JButton boutonNouvelle;
     private JButton boutonEditer;
@@ -150,6 +150,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
     private ActionListener ecouteurBoutonNouvelle2;
     private ActionListener ecouteurBoutonOk;
     private ActionListener ecouteurBoutonOk2;
+    private ActionListener ecouteurBoutonEditer;
+    private ActionListener ecouteurBoutonEditer2;
     private ActionListener ecouteurLignes;
     private ActionListener ecouteurColonnes;
     private ActionListener ecouteurLignePlus;
@@ -165,6 +167,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
     private ActionListener ecouteurBoutonAddition;
     private ActionListener ecouteurBoutonMultiplication;
     private ActionListener ecouteurBoutonSauvegarder;
+    private ActionListener ecouteurBoutonSauvegarder2;
     private ActionListener ecouteurBoutonTransposee;
     private ActionListener ecouteurBoutonTransposee2;
     private ActionListener ecouteurBoutonmultPar;
@@ -174,6 +177,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
     private ActionListener ecouteurBoutonSauvegarder4;
     private ActionListener ecouteurBoutonOkSauv4;
     private ActionListener ecouteurBoutonSupprimerMatrice;
+    private ActionListener ecouteurBoutonSupprimerMatrice2;
     /************************************
      * COMPOSANTS GRAPHIQUES
      ************************************/
@@ -245,6 +249,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
     
     TP3 nouvelleMatrice2;
     TP3 nouvelleMatrice;
+    TP3 matriceTransposee;
     TP3 matriceResultat;
     /**
     * Initialisation des composants graphiques.
@@ -514,6 +519,9 @@ public class TP3 extends WindowAdapter implements ActionListener {
                                         tableauMatrice.get(i).elements.set(j, Double.parseDouble(cellules[j].getText())); 
                                         nouvelleMatrice.elements.add(j, Double.parseDouble(cellules[j].getText()));
                                     }
+                                    boutonEditer.setEnabled(true);
+                                    boutonTransposee.setEnabled(true);
+                                    multReponse.setEnabled(true);
                                  }
                             }
                         }
@@ -566,6 +574,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
                                         tableauMatrice.get(i).elements.set(j, Double.parseDouble(cellules2[j].getText()));
                                         nouvelleMatrice2.elements.add(Double.parseDouble(cellules2[j].getText()));
                                     }
+                                    boutonEditer2.setEnabled(true);
                                  }
                             }
                         }
@@ -730,12 +739,34 @@ public class TP3 extends WindowAdapter implements ActionListener {
         };
         boutonSupprimerMatrice.addActionListener(ecouteurBoutonSupprimerMatrice);
         
+        ecouteurBoutonSupprimerMatrice2 = new ActionListener() {           
+            @Override
+            public void actionPerformed(ActionEvent evenement) {
+
+               supprimerMatrice2();
+            }
+        };
+        boutonSupprimerMatrice2.addActionListener(ecouteurBoutonSupprimerMatrice2);
+        
+        ecouteurBoutonEditer = new ActionListener() {           
+            @Override
+            public void actionPerformed(ActionEvent evenement) {
+
+               editer();
+            }
+        };
+        boutonEditer.addActionListener(ecouteurBoutonEditer);
+        
+        ecouteurBoutonEditer2 = new ActionListener() {           
+            @Override
+            public void actionPerformed(ActionEvent evenement) {
+
+               editer2();
+            }
+        };
+        boutonEditer2.addActionListener(ecouteurBoutonEditer2);
+        
     }
-   
-
-
-    
-    
    
     @Override
     public void actionPerformed (ActionEvent e) {
@@ -905,13 +936,16 @@ public class TP3 extends WindowAdapter implements ActionListener {
         (zone1.getHeight()/3)- (nbLignes * 25 / 5), nbColonnes * 48, nbLignes * 25);
         zone1.add(grilleMatrice);
         
+       
         
-        cellules = new JTextField [nbLignes * nbColonnes];
-        nouvelleMatrice = new TP3("baba", nbLignes, nbColonnes);
         
+        cellules = new JTextField [nouvelleMatrice.nbLignes * nouvelleMatrice.nbColonnes];
+        nouvelleMatrice = new TP3("", nouvelleMatrice.nbLignes, nouvelleMatrice.nbColonnes);
+        nouvelleMatrice.nbColonnes = nbColonnes;
+        nouvelleMatrice.nbLignes = nbLignes;
         for (int i = 0; i < nouvelleMatrice.elements.size() ; i++) {
            
-            nouvelleMatrice = new TP3("baba", nbLignes, nbColonnes);
+            nouvelleMatrice = new TP3("", nouvelleMatrice.nbLignes, nouvelleMatrice.nbColonnes);
             zone1.add(grilleMatrice);
 
             cellules[i] = new JTextField();
@@ -938,23 +972,27 @@ public class TP3 extends WindowAdapter implements ActionListener {
         choixNombreLC2.setVisible(false);
         boutonSauvegarder2 = new JButton("Sauvegarder");
         boutonSauvegarder2.setBackground(Color.WHITE);
-        boutonSauvegarder2.setBounds((zone2.getWidth()/4) + 7, 300, 90, 25);
+        boutonSauvegarder2.setBounds((zone1.getWidth()/4) + 7, 300, 90, 25);
         boutonSauvegarder2.setBorder(null);
         zone2.add(boutonSauvegarder2);
         boutonLignePlus2.setEnabled(true);
         boutonColonnePlus2.setEnabled(true);
         boutonLigneMoins2.setEnabled(true);
         boutonColonneMoins2.setEnabled(true);
-        grilleMatrice2 = new JPanel(new GridLayout(nbLignes2, nbColonnes2, 5, 6));  
-        grilleMatrice2.setBounds( (zone2.getWidth()/2)- (nbColonnes2 * 48 / 2), 
-        (zone2.getHeight()/3)- (nbLignes2 * 25 / 5), nbColonnes2 * 48, nbLignes2 * 25);
+        grilleMatrice2 = new JPanel(new GridLayout(nouvelleMatrice2.nbLignes, nouvelleMatrice2.nbColonnes, 5, 6));  
+        grilleMatrice2.setBounds( (zone2.getWidth()/2)- (nouvelleMatrice2.nbColonnes * 48 / 2), 
+        (zone2.getHeight()/3)- (nouvelleMatrice2.nbLignes * 25 / 5), nouvelleMatrice2.nbColonnes * 48, nouvelleMatrice2.nbLignes * 25);
         zone2.add(grilleMatrice2);
         
         
-        cellules2 = new JTextField [nbLignes2 * nbColonnes2];
-        nouvelleMatrice2 = new TP3("baba", nbLignes2, nbColonnes2);
+        cellules2 = new JTextField [nouvelleMatrice2.nbLignes * nouvelleMatrice2.nbColonnes];
+        nouvelleMatrice2 = new TP3("", nouvelleMatrice2.nbLignes, nouvelleMatrice2.nbColonnes);
         
         for (int i = 0; i < nouvelleMatrice2.elements.size() ; i++) {
+           
+            nouvelleMatrice2 = new TP3("", nouvelleMatrice2.nbLignes, nouvelleMatrice2.nbColonnes);
+            zone2.add(grilleMatrice2);
+
             cellules2[i] = new JTextField();
             cellules2[i].setFont(new Font("Courier", Font.PLAIN, 12));
             cellules2[i].setText(Double.toString(nouvelleMatrice2.elements.get(i)));
@@ -962,28 +1000,38 @@ public class TP3 extends WindowAdapter implements ActionListener {
             cellules2[i].setBackground(Color.YELLOW);
             grilleMatrice2.add(cellules2[i]);
         }
+        
+        ecouteurBoutonSauvegarder2 = new ActionListener() {           
+            @Override
+            public void actionPerformed(ActionEvent evenement) {
+
+                sauvegarder2();
+            }
+        };
+          
+        boutonSauvegarder2.addActionListener(ecouteurBoutonSauvegarder2);
     }
         
     public void ajouterLigne() {
         
-        if (nbLignes < 8){
+        if (nouvelleMatrice.nbLignes < 8){
             DecimalFormat df = new DecimalFormat("0.0###");
             
             nouvelleMatrice.elements.clear();
-            for (int i = 0; i < nbLignes * nbColonnes; i++) {
+            for (int i = 0; i < nouvelleMatrice.nbLignes * nouvelleMatrice.nbColonnes; i++) {
                 
                 nouvelleMatrice.elements.add(Double.parseDouble(cellules[i].getText()));
             }
             
-            nbLignes++;
+            nouvelleMatrice.nbLignes++;
             
-            grilleMatricePlus = new JPanel(new GridLayout(nbLignes, nbColonnes, 5, 6));  
-            grilleMatricePlus.setBounds( (zone1.getWidth()/2)- (nbColonnes * 48 / 2), 
-            (zone1.getHeight()/3)- (nbLignes * 25 / 5), nbColonnes * 48, nbLignes * 25);
+            grilleMatricePlus = new JPanel(new GridLayout(nouvelleMatrice.nbLignes, nouvelleMatrice.nbColonnes, 5, 6));  
+            grilleMatricePlus.setBounds( (zone1.getWidth()/2)- (nouvelleMatrice.nbColonnes * 48 / 2), 
+            (zone1.getHeight()/3)- (nouvelleMatrice.nbLignes * 25 / 5), nouvelleMatrice.nbColonnes * 48, nouvelleMatrice.nbLignes * 25);
           
             
-            cellulesPlus = new JTextField[nbLignes * nbColonnes];
-            for (int i = 0 ; i < ((nbLignes - 1) * nbColonnes) ; i++) {
+            cellulesPlus = new JTextField[nouvelleMatrice.nbLignes * nouvelleMatrice.nbColonnes];
+            for (int i = 0 ; i < ((nouvelleMatrice.nbLignes - 1) * nouvelleMatrice.nbColonnes) ; i++) {
                 
                 cellulesPlus[i] = new JTextField();
                 cellulesPlus[i].setFont(new Font("Courier", Font.PLAIN, 12));
@@ -993,7 +1041,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
                 grilleMatricePlus.add(cellulesPlus[i]);
             }
             
-            for (int i = (nbLignes - 1) * nbColonnes ; i < ((nbLignes - 1) * nbColonnes) + nbColonnes ; i++) {
+            for (int i = (nouvelleMatrice.nbLignes - 1) * nouvelleMatrice.nbColonnes ; i < ((nouvelleMatrice.nbLignes - 1) * nouvelleMatrice.nbColonnes) + nouvelleMatrice.nbColonnes ; i++) {
                 
                 cellulesPlus[i] = new JTextField();
                 cellulesPlus[i].setFont(new Font("Courier", Font.PLAIN, 12));
@@ -1011,8 +1059,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
             
             grilleMatrice = grilleMatricePlus;
             
-            cellules = new JTextField [nbLignes * nbColonnes];
-            for (int i = 0 ; i < (nbLignes * nbColonnes); i++) {
+            cellules = new JTextField [nouvelleMatrice.nbLignes * nouvelleMatrice.nbColonnes];
+            for (int i = 0 ; i < (nouvelleMatrice.nbLignes * nouvelleMatrice.nbColonnes); i++) {
                 cellules[i] = cellulesPlus[i];
                 nouvelleMatrice.elements.set(i, Double.parseDouble(cellules[i].getText())); 
             }
@@ -1022,34 +1070,35 @@ public class TP3 extends WindowAdapter implements ActionListener {
     }
     public void ajouterLigne2() {
         
-        if (nbLignes2 < 8){
+        if (nouvelleMatrice2.nbLignes < 8){
             DecimalFormat df = new DecimalFormat("0.0###");
             
-            
-            for (int i = 0; i < nbLignes2 * nbColonnes2; i++) {
+            nouvelleMatrice2.elements.clear();
+            for (int i = 0; i < nouvelleMatrice2.nbLignes * nouvelleMatrice2.nbColonnes; i++) {
                 
-                nouvelleMatrice2.elements.set(i, Double.parseDouble(cellules2[i].getText()));
+                nouvelleMatrice2.elements.add(Double.parseDouble(cellules2[i].getText()));
             }
             
-            nbLignes2 = nbLignes2 + 1;
+            nouvelleMatrice2.nbLignes++;
             
-            grilleMatricePlus2 = new JPanel(new GridLayout(nbLignes2, nbColonnes2, 5, 6));  
-            grilleMatricePlus2.setBounds( (zone2.getWidth()/2)- (nbColonnes2 * 48 / 2), 
-            (zone2.getHeight()/3)- (nbLignes2 * 25 / 5), nbColonnes2 * 48, nbLignes2 * 25);
+            grilleMatricePlus2 = new JPanel(new GridLayout(nouvelleMatrice2.nbLignes, nouvelleMatrice2.nbColonnes, 5, 6));  
+            grilleMatricePlus2.setBounds( (zone2.getWidth()/2)- (nouvelleMatrice2.nbColonnes * 48 / 2), 
+            (zone2.getHeight()/3)- (nouvelleMatrice2.nbLignes * 25 / 5), nouvelleMatrice2.nbColonnes * 48, nouvelleMatrice2.nbLignes * 25);
           
             
-            cellulesPlus2 = new JTextField[nbLignes2 * nbColonnes2];
-            for (int i = 0 ; i < ((nbLignes2 - 1) * nbColonnes2) ; i++) {
+            cellulesPlus2 = new JTextField[nouvelleMatrice2.nbLignes * nouvelleMatrice2.nbColonnes];
+            for (int i = 0 ; i < ((nouvelleMatrice2.nbLignes - 1) * nouvelleMatrice2.nbColonnes) ; i++) {
+                
                 cellulesPlus2[i] = new JTextField();
                 cellulesPlus2[i].setFont(new Font("Courier", Font.PLAIN, 12));
-                cellulesPlus2[i].setText(String.valueOf(nouvelleMatrice2.elements.get(i)));
+                cellulesPlus2[i].setText(Double.toString(nouvelleMatrice2.elements.get(i)));
                 cellulesPlus2[i].setHorizontalAlignment(SwingConstants.LEFT);
                 cellulesPlus2[i].setBackground(Color.YELLOW);
-                
                 grilleMatricePlus2.add(cellulesPlus2[i]);
             }
             
-            for (int i = (nbLignes2 - 1) * nbColonnes2 ; i < ((nbLignes2 - 1) * nbColonnes2) + nbColonnes2 ; i++) {
+            for (int i = (nouvelleMatrice2.nbLignes - 1) * nouvelleMatrice2.nbColonnes ; i < ((nouvelleMatrice2.nbLignes - 1) * nouvelleMatrice2.nbColonnes) + nouvelleMatrice2.nbColonnes ; i++) {
+                
                 cellulesPlus2[i] = new JTextField();
                 cellulesPlus2[i].setFont(new Font("Courier", Font.PLAIN, 12));
                 cellulesPlus2[i].setText("0.0");
@@ -1066,8 +1115,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
             
             grilleMatrice2 = grilleMatricePlus2;
             
-            cellules2 = new JTextField [nbLignes2 * nbColonnes2];
-            for (int i = 0 ; i < (nbLignes2 * nbColonnes2); i++) {
+            cellules2 = new JTextField [nouvelleMatrice2.nbLignes * nouvelleMatrice2.nbColonnes];
+            for (int i = 0 ; i < (nouvelleMatrice2.nbLignes * nouvelleMatrice2.nbColonnes); i++) {
                 cellules2[i] = cellulesPlus2[i];
                 nouvelleMatrice2.elements.set(i, Double.parseDouble(cellules2[i].getText())); 
             }
@@ -1078,26 +1127,26 @@ public class TP3 extends WindowAdapter implements ActionListener {
     
     private void ajouterColonne(){  
           
-        if (nbColonnes < 8){
+        if (nouvelleMatrice.nbColonnes < 8){
             
             for (int i = 0; i < nouvelleMatrice.elements.size(); i++) {
                 nouvelleMatrice.elements.set(i,Double.parseDouble(cellules[i].getText()));
             }
             
-            grilleMatricePlus = new JPanel(new GridLayout(nbLignes, (nbColonnes +1), 5, 6));  
-            grilleMatricePlus.setBounds((zone1.getWidth()/2) - ((nbColonnes+1) * 48 / 2), 
-            (zone1.getHeight()/3)- (nbLignes * 25 / 5), (nbColonnes+1) * 48, nbLignes * 25);
+            grilleMatricePlus = new JPanel(new GridLayout(nouvelleMatrice.nbLignes, (nouvelleMatrice.nbColonnes +1), 5, 6));  
+            grilleMatricePlus.setBounds((zone1.getWidth()/2) - ((nouvelleMatrice.nbColonnes+1) * 48 / 2), 
+            (zone1.getHeight()/3)- (nouvelleMatrice.nbLignes * 25 / 5), (nouvelleMatrice.nbColonnes +1) * 48, nouvelleMatrice.nbLignes * 25);
     
-            cellulesPlus = new JTextField[nbLignes * (nbColonnes+1)];
+            cellulesPlus = new JTextField[nouvelleMatrice.nbLignes * (nouvelleMatrice.nbColonnes+1)];
             
             
             elements2 = new ArrayList<Double>();
             DecimalFormat df = new DecimalFormat("0.0###");
             int k = 0;
             int s = 1;
-            for(int i = 0; i < nbLignes * (nbColonnes+1) ; i++){
+            for(int i = 0; i < nouvelleMatrice.nbLignes * (nouvelleMatrice.nbColonnes+1) ; i++){
                             
-                if ((i % (((nbColonnes+1)*s)-1)) == 0 && i != 0){
+                if ((i % (((nouvelleMatrice.nbColonnes+1)*s)-1)) == 0 && i != 0){
                     
                     cellulesPlus[i] = new JTextField();
                     cellulesPlus[i].setFont(new Font("Courier", Font.PLAIN, 12));
@@ -1122,15 +1171,15 @@ public class TP3 extends WindowAdapter implements ActionListener {
                 }
           
             }
-            nbColonnes++;
+            nouvelleMatrice.nbColonnes++;
             
             grilleMatrice.setVisible(false);
             grilleMatrice = grilleMatricePlus;
             zone1.add(grilleMatricePlus);
             grilleMatrice.setVisible(true);
-            cellules = new JTextField [nbLignes * nbColonnes];
+            cellules = new JTextField [nouvelleMatrice.nbLignes * nouvelleMatrice.nbColonnes];
             nouvelleMatrice.elements.clear();
-            for (int i = 0 ; i < nbLignes * nbColonnes ; i++) {
+            for (int i = 0 ; i < nouvelleMatrice.nbLignes * nouvelleMatrice.nbColonnes ; i++) {
                 cellules[i] = cellulesPlus[i];
                 nouvelleMatrice.elements.add(elements2.get(i));
             }
@@ -1140,26 +1189,27 @@ public class TP3 extends WindowAdapter implements ActionListener {
     }
     private void ajouterColonne2(){  
           
-        if (nbColonnes2 < 8){
-           
+        if (nouvelleMatrice2.nbColonnes < 8){
+            
             for (int i = 0; i < nouvelleMatrice2.elements.size(); i++) {
                 nouvelleMatrice2.elements.set(i,Double.parseDouble(cellules2[i].getText()));
             }
             
-            grilleMatricePlus2 = new JPanel(new GridLayout(nbLignes2, (nbColonnes2 +1), 5, 6));  
-            grilleMatricePlus2.setBounds((zone2.getWidth()/2) - ((nbColonnes2+1) * 48 / 2), 
-            (zone2.getHeight()/3)- (nbLignes2 * 25 / 5), (nbColonnes2+1) * 48, nbLignes2 * 25);
+            grilleMatricePlus2 = new JPanel(new GridLayout(nouvelleMatrice2.nbLignes, (nouvelleMatrice2.nbColonnes +1), 5, 6));  
+            grilleMatricePlus2.setBounds((zone1.getWidth()/2) - ((nouvelleMatrice2.nbColonnes+1) * 48 / 2), 
+            (zone2.getHeight()/3)- (nouvelleMatrice2.nbLignes * 25 / 5), (nouvelleMatrice2.nbColonnes +1) * 48, nouvelleMatrice2.nbLignes * 25);
     
-            cellulesPlus2 = new JTextField[nbLignes2 * (nbColonnes2+1)];
+            cellulesPlus2 = new JTextField[nouvelleMatrice2.nbLignes * (nouvelleMatrice2.nbColonnes+1)];
+            
             
             elements2 = new ArrayList<Double>();
             DecimalFormat df = new DecimalFormat("0.0###");
             int k = 0;
             int s = 1;
-            for(int i = 0; i < nbLignes2 * (nbColonnes2+1) ; i++){
+            for(int i = 0; i < nouvelleMatrice2.nbLignes * (nouvelleMatrice2.nbColonnes+1) ; i++){
                             
-                if ((i % (((nbColonnes2+1)*s)-1)) == 0 && i != 0){
-                   
+                if ((i % (((nouvelleMatrice2.nbColonnes+1)*s)-1)) == 0 && i != 0){
+                    
                     cellulesPlus2[i] = new JTextField();
                     cellulesPlus2[i].setFont(new Font("Courier", Font.PLAIN, 12));
                     cellulesPlus2[i].setText("0.0");
@@ -1170,7 +1220,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
                     s++;
                     
                 } else {
-                   
+                    
                     cellulesPlus2[i] = new JTextField();
                     cellulesPlus2[i].setFont(new Font("Courier", Font.PLAIN, 12));
                     cellulesPlus2[i].setText(Double.toString(nouvelleMatrice2.elements.get(k)));
@@ -1183,15 +1233,15 @@ public class TP3 extends WindowAdapter implements ActionListener {
                 }
           
             }
-            nbColonnes2++;
+            nouvelleMatrice2.nbColonnes++;
             
             grilleMatrice2.setVisible(false);
             grilleMatrice2 = grilleMatricePlus2;
             zone2.add(grilleMatricePlus2);
             grilleMatrice2.setVisible(true);
-            cellules2 = new JTextField [nbLignes2 * nbColonnes2];
+            cellules2 = new JTextField [nouvelleMatrice2.nbLignes * nouvelleMatrice2.nbColonnes];
             nouvelleMatrice2.elements.clear();
-            for (int i = 0 ; i < nbLignes2 * nbColonnes2 ; i++) {
+            for (int i = 0 ; i < nouvelleMatrice2.nbLignes * nouvelleMatrice2.nbColonnes ; i++) {
                 cellules2[i] = cellulesPlus2[i];
                 nouvelleMatrice2.elements.add(elements2.get(i));
             }
@@ -1202,22 +1252,22 @@ public class TP3 extends WindowAdapter implements ActionListener {
     
     private void supprimerLigne() {
         
-        if (nbLignes > 1){
+        if (nouvelleMatrice.nbLignes > 1){
             
             
             for (int i = 0; i < nouvelleMatrice.elements.size(); i++) {
                 nouvelleMatrice.elements.set(i,Double.parseDouble(cellules[i].getText()));
             }
             
-            nbLignes = nbLignes - 1;
+            nouvelleMatrice.nbLignes = nouvelleMatrice.nbLignes - 1;
             
-            grilleMatriceMoins = new JPanel(new GridLayout(nbLignes, nbColonnes, 5, 6));  
-            grilleMatriceMoins.setBounds( (zone1.getWidth()/2)- (nbColonnes * 48 / 2), 
-            (zone1.getHeight()/3)- (nbLignes * 25 / 5), nbColonnes * 48, nbLignes * 25);
+            grilleMatriceMoins = new JPanel(new GridLayout(nouvelleMatrice.nbLignes, nouvelleMatrice.nbColonnes, 5, 6));  
+            grilleMatriceMoins.setBounds( (zone1.getWidth()/2)- (nouvelleMatrice.nbColonnes * 48 / 2), 
+            (zone1.getHeight()/3)- (nouvelleMatrice.nbLignes * 25 / 5), nouvelleMatrice.nbColonnes * 48, nouvelleMatrice.nbLignes * 25);
             DecimalFormat df = new DecimalFormat("0.0###");
 
-            cellulesMoins = new JTextField[nbLignes * nbColonnes];
-            for (int i = 0 ; i < (nbLignes * nbColonnes) ; i++) {
+            cellulesMoins = new JTextField[nouvelleMatrice.nbLignes * nouvelleMatrice.nbColonnes];
+            for (int i = 0 ; i < (nouvelleMatrice.nbLignes * nouvelleMatrice.nbColonnes) ; i++) {
                 cellulesMoins[i] = new JTextField();
                 cellulesMoins[i].setFont(new Font("Courier", Font.PLAIN, 12));
                 cellulesMoins[i].setText(Double.toString(nouvelleMatrice.elements.get(i)));
@@ -1226,7 +1276,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
                 grilleMatriceMoins.add(cellulesMoins[i]);
             }
             
-            for (int i = (nbColonnes * (nbLignes+1))-1 ; i > (nbColonnes * nbLignes)-1 ; i--) {
+            for (int i = (nouvelleMatrice.nbColonnes * (nouvelleMatrice.nbLignes+1))-1 ; i > (nouvelleMatrice.nbColonnes * nouvelleMatrice.nbLignes)-1 ; i--) {
                 
                 nouvelleMatrice.elements.remove(i);
                 
@@ -1238,10 +1288,57 @@ public class TP3 extends WindowAdapter implements ActionListener {
             
             grilleMatrice = grilleMatriceMoins;
             
-            cellules = new JTextField [nbLignes * nbColonnes];
-            for (int i = 0 ; i < (nbLignes * nbColonnes); i++) {
+            cellules = new JTextField [nouvelleMatrice.nbLignes * nouvelleMatrice.nbColonnes];
+            for (int i = 0 ; i < (nouvelleMatrice.nbLignes * nouvelleMatrice.nbColonnes); i++) {
                 cellules[i] = cellulesMoins[i];
                 nouvelleMatrice.elements.set(i, Double.parseDouble(cellules[i].getText()));
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "La matrice doit contenir au moins une ligne!");
+        }
+    }
+    private void supprimerLigne2() {
+        
+        if (nouvelleMatrice2.nbLignes > 1){
+            
+            
+            for (int i = 0; i < nouvelleMatrice2.elements.size(); i++) {
+                nouvelleMatrice2.elements.set(i,Double.parseDouble(cellules2[i].getText()));
+            }
+            
+            nouvelleMatrice2.nbLignes = nouvelleMatrice2.nbLignes - 1;
+            
+            grilleMatriceMoins2 = new JPanel(new GridLayout(nouvelleMatrice2.nbLignes, nouvelleMatrice2.nbColonnes, 5, 6));  
+            grilleMatriceMoins2.setBounds( (zone2.getWidth()/2)- (nouvelleMatrice2.nbColonnes * 48 / 2), 
+            (zone2.getHeight()/3)- (nouvelleMatrice2.nbLignes * 25 / 5), nouvelleMatrice2.nbColonnes * 48, nouvelleMatrice2.nbLignes * 25);
+            DecimalFormat df = new DecimalFormat("0.0###");
+
+            cellulesMoins2 = new JTextField[nouvelleMatrice2.nbLignes * nouvelleMatrice2.nbColonnes];
+            for (int i = 0 ; i < (nouvelleMatrice2.nbLignes * nouvelleMatrice2.nbColonnes) ; i++) {
+                cellulesMoins2[i] = new JTextField();
+                cellulesMoins2[i].setFont(new Font("Courier", Font.PLAIN, 12));
+                cellulesMoins2[i].setText(Double.toString(nouvelleMatrice2.elements.get(i)));
+                cellulesMoins2[i].setHorizontalAlignment(SwingConstants.LEFT);
+                cellulesMoins2[i].setBackground(Color.YELLOW);
+                grilleMatriceMoins2.add(cellulesMoins2[i]);
+            }
+            
+            for (int i = (nouvelleMatrice2.nbColonnes * (nouvelleMatrice2.nbLignes+1))-1 ; i > (nouvelleMatrice2.nbColonnes * nouvelleMatrice2.nbLignes)-1 ; i--) {
+                
+                nouvelleMatrice2.elements.remove(i);
+                
+            }
+            
+            grilleMatrice2.setVisible(false);
+            
+            zone2.add(grilleMatriceMoins2);
+            
+            grilleMatrice2 = grilleMatriceMoins2;
+            
+            cellules2 = new JTextField [nouvelleMatrice2.nbLignes * nouvelleMatrice2.nbColonnes];
+            for (int i = 0 ; i < (nouvelleMatrice2.nbLignes * nouvelleMatrice2.nbColonnes); i++) {
+                cellules2[i] = cellulesMoins2[i];
+                nouvelleMatrice2.elements.set(i, Double.parseDouble(cellules2[i].getText()));
             }
         } else {
             JOptionPane.showMessageDialog(null, "La matrice doit contenir au moins une ligne!");
@@ -1273,25 +1370,25 @@ public class TP3 extends WindowAdapter implements ActionListener {
     
     private void supprimerColonne(){
         
-         if (nbColonnes > 1){
+         if (nouvelleMatrice.nbColonnes > 1){
             
            
             for (int i = 0; i < nouvelleMatrice.elements.size(); i++) {
                 nouvelleMatrice.elements.set(i,Double.parseDouble(cellules[i].getText()));
             }
-            grilleMatriceMoins = new JPanel(new GridLayout(nbLignes, (nbColonnes - 1), 5, 6));  
-            grilleMatriceMoins.setBounds( (zone1.getWidth()/2)- ((nbColonnes - 1) * 24), 
-            (zone1.getHeight()/3)- (nbLignes * 5), (nbColonnes - 1) * 48, nbLignes * 25);
+            grilleMatriceMoins = new JPanel(new GridLayout(nouvelleMatrice.nbLignes, (nouvelleMatrice.nbColonnes - 1), 5, 6));  
+            grilleMatriceMoins.setBounds( (zone1.getWidth()/2)- ((nouvelleMatrice.nbColonnes - 1) * 24), 
+            (zone1.getHeight()/3)- (nouvelleMatrice.nbLignes * 5), (nouvelleMatrice.nbColonnes - 1) * 48, nouvelleMatrice.nbLignes * 25);
             zone1.add(grilleMatriceMoins);
             DecimalFormat df = new DecimalFormat("0.0###");
 
-            cellulesMoins = new JTextField[nbLignes * (nbColonnes - 1)];
+            cellulesMoins = new JTextField[nouvelleMatrice.nbLignes * (nouvelleMatrice.nbColonnes - 1)];
             int j = 0;
             int s = 0;
             
-            for(int i = 0; j < (nbLignes * (nbColonnes - 1)) ; i++){
+            for(int i = 0; j < (nouvelleMatrice.nbLignes * (nouvelleMatrice.nbColonnes - 1)) ; i++){
                             
-                if ((i != (nbColonnes - 1) && s == 0) || (s != 0 && i != ((s+1) * nbColonnes - 1))){
+                if ((i != (nouvelleMatrice.nbColonnes - 1) && s == 0) || (s != 0 && i != ((s+1) * nouvelleMatrice.nbColonnes - 1))){
                     
                     cellulesMoins[j] = new JTextField();
                     cellulesMoins[j].setFont(new Font("Courier", Font.PLAIN, 12));
@@ -1305,11 +1402,11 @@ public class TP3 extends WindowAdapter implements ActionListener {
                 }
           
             }
-            for (int i = 0; i < nbLignes; i++) {
-                nouvelleMatrice.elements.remove((i*nbColonnes)-(i-1));
+            for (int i = 0; i < nouvelleMatrice.nbLignes; i++) {
+                nouvelleMatrice.elements.remove((i*nouvelleMatrice.nbColonnes)-(i-1));
             }
             
-            nbColonnes--;
+            nouvelleMatrice.nbColonnes--;
             
             grilleMatrice.setVisible(false);
             
@@ -1317,8 +1414,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
             
             grilleMatrice = grilleMatriceMoins;
             
-            cellules = new JTextField [nbLignes * nbColonnes];
-            for (int i = 0 ; i < (nbLignes * nbColonnes); i++) {
+            cellules = new JTextField [nouvelleMatrice.nbLignes * nouvelleMatrice.nbColonnes];
+            for (int i = 0 ; i < (nouvelleMatrice.nbLignes * nouvelleMatrice.nbColonnes); i++) {
                 cellules[i] = cellulesMoins[i];
                 nouvelleMatrice.elements.set(i, Double.parseDouble(cellules[i].getText()));
             }     
@@ -1326,76 +1423,29 @@ public class TP3 extends WindowAdapter implements ActionListener {
             JOptionPane.showMessageDialog(null, "La matrice doit contenir au moins une colonne!");
         }
     }
-    private void supprimerLigne2() {
-        
-            if (nbLignes2 > 1){
-            
-            
-           
-            for (int i = 0; i < nouvelleMatrice2.elements.size(); i++) {
-                nouvelleMatrice2.elements.set(i,Double.parseDouble(cellules2[i].getText()));
-            }
-            
-            nbLignes2--;
-            
-            grilleMatriceMoins2 = new JPanel(new GridLayout(nbLignes2, nbColonnes2, 5, 6));  
-            grilleMatriceMoins2.setBounds( (zone2.getWidth()/2)- (nbColonnes2 * 48 / 2), 
-            (zone2.getHeight()/3)- (nbLignes2 * 25 / 5), nbColonnes2 * 48, nbLignes2 * 25);
-            DecimalFormat df = new DecimalFormat("0.0###");
-
-            cellulesMoins2 = new JTextField[nbLignes2 * nbColonnes2];
-            for (int i = 0 ; i < (nbLignes2 * nbColonnes2) ; i++) {
-                cellulesMoins2[i] = new JTextField();
-                cellulesMoins2[i].setFont(new Font("Courier", Font.PLAIN, 12));
-                cellulesMoins2[i].setText(Double.toString(nouvelleMatrice2.elements.get(i)));
-                cellulesMoins2[i].setHorizontalAlignment(SwingConstants.LEFT);
-                cellulesMoins2[i].setBackground(Color.YELLOW);
-                grilleMatriceMoins2.add(cellulesMoins2[i]);
-            }
-            
-            for (int i = (nbColonnes2 * (nbLignes2+1))-1 ; i > (nbColonnes2 * nbLignes2)-1 ; i--) {
-                
-                nouvelleMatrice2.elements.remove(i);
-                
-            }
-            
-            grilleMatrice2.setVisible(false);
-            
-            zone2.add(grilleMatriceMoins2);
-            
-            grilleMatrice2 = grilleMatriceMoins2;
-            
-            cellules2 = new JTextField [nbLignes2 * nbColonnes2];
-            for (int i = 0 ; i < (nbLignes2 * nbColonnes2); i++) {
-                cellules2[i] = cellulesMoins2[i];
-                nouvelleMatrice2.elements.set(i, Double.parseDouble(cellules2[i].getText()));
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "La matrice doit contenir au moins une ligne!");
-        }
-    }
+    
     
     private void supprimerColonne2(){
         
-            if (nbColonnes2 > 1){
+         if (nouvelleMatrice2.nbColonnes > 1){
             
            
             for (int i = 0; i < nouvelleMatrice2.elements.size(); i++) {
                 nouvelleMatrice2.elements.set(i,Double.parseDouble(cellules2[i].getText()));
             }
-            grilleMatriceMoins2 = new JPanel(new GridLayout(nbLignes2, (nbColonnes2 - 1), 5, 6));  
-            grilleMatriceMoins2.setBounds( (zone2.getWidth()/2)- ((nbColonnes2 - 1) * 24), 
-            (zone2.getHeight()/3)- (nbLignes2 * 5), (nbColonnes2 - 1) * 48, nbLignes2 * 25);
+            grilleMatriceMoins2 = new JPanel(new GridLayout(nouvelleMatrice2.nbLignes, (nouvelleMatrice2.nbColonnes - 1), 5, 6));  
+            grilleMatriceMoins2.setBounds( (zone2.getWidth()/2)- ((nouvelleMatrice2.nbColonnes - 1) * 24), 
+            (zone2.getHeight()/3)- (nouvelleMatrice2.nbLignes * 5), (nouvelleMatrice2.nbColonnes - 1) * 48, nouvelleMatrice2.nbLignes * 25);
             zone2.add(grilleMatriceMoins2);
             DecimalFormat df = new DecimalFormat("0.0###");
 
-            cellulesMoins2 = new JTextField[nbLignes2 * (nbColonnes2 - 1)];
+            cellulesMoins2 = new JTextField[nouvelleMatrice2.nbLignes * (nouvelleMatrice2.nbColonnes - 1)];
             int j = 0;
             int s = 0;
             
-            for(int i = 0; j < (nbLignes2 * (nbColonnes2 - 1)) ; i++){
+            for(int i = 0; j < (nouvelleMatrice2.nbLignes * (nouvelleMatrice2.nbColonnes - 1)) ; i++){
                             
-                if ((i != (nbColonnes2 - 1) && s == 0) || (s != 0 && i != ((s+1) * nbColonnes2 - 1))){
+                if ((i != (nouvelleMatrice2.nbColonnes - 1) && s == 0) || (s != 0 && i != ((s+1) * nouvelleMatrice2.nbColonnes - 1))){
                     
                     cellulesMoins2[j] = new JTextField();
                     cellulesMoins2[j].setFont(new Font("Courier", Font.PLAIN, 12));
@@ -1409,11 +1459,11 @@ public class TP3 extends WindowAdapter implements ActionListener {
                 }
           
             }
-            for (int i = 0; i < nbLignes2; i++) {
-                nouvelleMatrice2.elements.remove((i*nbColonnes2)-(i-1));
+            for (int i = 0; i < nouvelleMatrice2.nbLignes; i++) {
+                nouvelleMatrice2.elements.remove((i*nouvelleMatrice2.nbColonnes)-(i-1));
             }
             
-            nbColonnes2--;
+            nouvelleMatrice2.nbColonnes--;
             
             grilleMatrice2.setVisible(false);
             
@@ -1421,8 +1471,8 @@ public class TP3 extends WindowAdapter implements ActionListener {
             
             grilleMatrice2 = grilleMatriceMoins2;
             
-            cellules2 = new JTextField [nbLignes2 * nbColonnes2];
-            for (int i = 0 ; i < (nbLignes2 * nbColonnes2); i++) {
+            cellules2 = new JTextField [nouvelleMatrice2.nbLignes * nouvelleMatrice2.nbColonnes];
+            for (int i = 0 ; i < (nouvelleMatrice2.nbLignes * nouvelleMatrice2.nbColonnes); i++) {
                 cellules2[i] = cellulesMoins2[i];
                 nouvelleMatrice2.elements.set(i, Double.parseDouble(cellules2[i].getText()));
             }     
@@ -1558,6 +1608,15 @@ public class TP3 extends WindowAdapter implements ActionListener {
         nouveauNom.setBounds(10, 15, 200, 20);
         demandeNom.add(nouveauNom);
         nomSaisi = new JTextField();
+        for (int i = 0; i < tableauMatrice.size(); i++) {
+            if (nomSaisi.getText() == tableauMatrice.get(i).nom) {
+                JOptionPane.showMessageDialog(null, "Le nom demande existe deja");
+                sauvegarder();
+            }
+        }
+        
+        
+        
         nomSaisi.setBounds(110, 15, 90, 20);
         nomSaisi.setEditable(true);
         demandeNom.add(nomSaisi);
@@ -1596,7 +1655,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
             listeMatrices.addItem(tableauMatrice.get(tableauMatrice.size()-1).nom);
             listeMatrices2.addItem(tableauMatrice.get(tableauMatrice.size()-1).nom);
         }
-        boutonSupprimer.setEnabled(true); 
+        boutonSupprimerMatrice.setEnabled(true); 
         boutonNouvelle.setEnabled(true);
         boutonEditer.setEnabled(true);
         boutonLignePlus.setEnabled(false);
@@ -1630,6 +1689,15 @@ public class TP3 extends WindowAdapter implements ActionListener {
         nouveauNom2.setBounds(10, 15, 200, 20);
         demandeNom2.add(nouveauNom2);
         nomSaisi2 = new JTextField();
+        for (int i = 0; i < tableauMatrice.size(); i++) {
+            if (nomSaisi2.getText() == tableauMatrice.get(i).nom) {
+                JOptionPane.showMessageDialog(null, "Le nom demande existe deja");
+                sauvegarder();
+            }
+        }
+        
+        
+        
         nomSaisi2.setBounds(110, 15, 90, 20);
         nomSaisi2.setEditable(true);
         demandeNom2.add(nomSaisi2);
@@ -1637,7 +1705,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
         JButton boutonOkSauv2 = new JButton("Ok");
         boutonOkSauv2.setBackground(Color.WHITE);
         boutonOkSauv2.setBounds(150, 58, 50, 20);
-        demandeNom2.add(boutonOkSauv2);
+        demandeNom.add(boutonOkSauv2);
         
         ecouteurBoutonOkSauv2 = new ActionListener() {           
             @Override
@@ -1661,12 +1729,14 @@ public class TP3 extends WindowAdapter implements ActionListener {
         modeOperations2();
         
     }
+    
     public void modeOperations2(){
                
         if (listeMatrices2.getItemCount() != tableauMatrice.size()){
             listeMatrices2.addItem(tableauMatrice.get(tableauMatrice.size()-1).nom);
+            listeMatrices.addItem(tableauMatrice.get(tableauMatrice.size()-1).nom);
         }
-        boutonSupprimer2.setEnabled(true); 
+        boutonSupprimerMatrice2.setEnabled(true); 
         boutonNouvelle2.setEnabled(true);
         boutonEditer2.setEnabled(true);
         boutonLignePlus2.setEnabled(false);
@@ -1681,9 +1751,7 @@ public class TP3 extends WindowAdapter implements ActionListener {
     public double getElement (int noLigne, int noCol) { 
         
         int position;
-        if (nouvelleMatrice == null) {
-            System.out.println("viiiiide");
-        }
+        
         position = ((nouvelleMatrice.nbColonnes * (noLigne-1)) + noCol)-1;
        
         return nouvelleMatrice.elements.get(position);
@@ -1702,77 +1770,55 @@ public class TP3 extends WindowAdapter implements ActionListener {
        int position;    
        
        position = (matriceResultat.nbColonnes * (noLigne-1) + noCol);
-            System.out.println("position" + position + "element" + element);
+            
         matriceResultat.elements.set(position, element);
     }
     public void setElement2 (int noLigne, int noCol, double element) {
         
-        int i = (nouvelleMatrice.nbColonnes * (noLigne-1)) + noCol;
+        int i = ((matriceTransposee.nbColonnes * (noLigne-1)) + noCol)-1;
+        matriceTransposee.elements.set(i, element);
+    }
+    public void setElement3 (int noLigne, int noCol, double element) {
+        
+        int i = (nouvelleMatrice2.nbColonnes * (noLigne-1)) + noCol;
         nouvelleMatrice2.elements.set(i, element);
     }
     private void transposee(){
-        TP3 m = new TP3(nouvelleMatrice.nom,nouvelleMatrice.nbColonnes,nouvelleMatrice.nbLignes);
+        matriceTransposee = new TP3(nouvelleMatrice.nom,nouvelleMatrice.nbColonnes,nouvelleMatrice.nbLignes);
         
         double resultat = 0;
-        for (int i = 0; i < nbLignes; i++) {
-            for (int j = 0; j < nbColonnes; j++ ) {
-                setElement(j, i, getElement(i,j));
+        for (int i = 0; i < nouvelleMatrice.nbLignes; i++) {
+            System.out.println("i : " + i + " j : " );
+            for (int j = 0; j < nouvelleMatrice.nbColonnes; j++ ) {
+                System.out.println("i : " + i + " j : " + j);
+                setElement2(j, i, getElement(i,j));
+                System.out.println("i : " + i + " j : " + j);
             }
         }
-        nouvelleMatrice = m;
-        cellules = new JTextField[nbLignes *nbColonnes];
+        nouvelleMatrice = matriceTransposee;
+        JTextField [] cellulesTransposee = new JTextField[nouvelleMatrice.nbLignes *nouvelleMatrice.nbColonnes];
         
-        grilleTransposee = new JPanel(new GridLayout(nbLignes, nbColonnes, 5, 6));  
-        grilleTransposee.setBounds( (zone1.getWidth()/2)- (nbColonnes * 48 / 2), 
-        (zone4.getHeight()/3)- (nbLignes * 25 / 5), nbColonnes * 48, nbLignes * 25);
-        
-        for (int i = 0 ; i < nbLignes*nbColonnes; i++) {
-            cellules[i] = new JTextField();
-            cellules[i].setFont(new Font("Courier", Font.PLAIN, 12));
-            cellules[i].setText(Double.toString(nouvelleMatrice.elements.get(i)));
-            cellules[i].setHorizontalAlignment(SwingConstants.LEFT);
-            cellules[i].setBackground(Color.YELLOW);
-            grilleTransposee.add(cellules[i]);
+        grilleTransposee = new JPanel(new GridLayout(nouvelleMatrice.nbLignes, nouvelleMatrice.nbColonnes, 5, 6));  
+        grilleTransposee.setBounds( (zone1.getWidth()/2)- (nouvelleMatrice.nbColonnes * 48 / 2), 
+        (zone1.getHeight()/3)- (nouvelleMatrice.nbLignes * 25 / 5), nouvelleMatrice.nbColonnes * 48, nouvelleMatrice.nbLignes * 25);
+        cellulesTransposee = new JTextField [nouvelleMatrice.nbLignes * nouvelleMatrice.nbColonnes];
+        for (int i = 0 ; i < nouvelleMatrice.nbLignes*nouvelleMatrice.nbColonnes; i++) {
+            cellulesTransposee[i] = new JTextField();
+            cellulesTransposee[i].setFont(new Font("Courier", Font.PLAIN, 12));
+            cellulesTransposee[i].setText(Double.toString(nouvelleMatrice.elements.get(i)));
+            cellulesTransposee[i].setHorizontalAlignment(SwingConstants.LEFT);
+            cellulesTransposee[i].setBackground(Color.YELLOW);
+            grilleTransposee.add(cellulesTransposee[i]);
         }
         grilleMatrice.setVisible(false);
-        zone1.add(grilleTransposee2);
+        zone1.add(grilleTransposee);
         grilleMatrice = grilleTransposee;
+        for (int i = 0 ; i < (nouvelleMatrice.nbLignes * nouvelleMatrice.nbColonnes); i++) {
+                cellules[i] = cellulesTransposee[i];
+                nouvelleMatrice.elements.set(i, Double.parseDouble(cellules[i].getText())); 
+            }
     }
-//    private void affichageZone1(JPanel panel, int j, int i) {
-//        cellules[i] = new JTextField();
-//        cellules[i].setFont(new Font("Courier", Font.PLAIN, 12));
-//        cellules[i].setText(Double.toString(tableauMatrice.get(j).elements.get(i)));
-//        cellules[i].setHorizontalAlignment(SwingConstants.LEFT);
-//        cellules[i].setBackground(Color.YELLOW);
-//        panel.add(cellules[i]);
-//    }
-//    private void affichageZone1BIS() {
-//        
-//        grilleMatrice = new JPanel(new GridLayout(nbLignes, nbColonnes, 5, 6));  
-//        grilleMatrice.setBounds( (zone1.getWidth()/2)- (nbColonnes * 48 / 2), 
-//        (zone1.getHeight()/3)- (nbLignes * 25 / 5), nbColonnes * 48, nbLignes * 25);
-//        
-//        JTextField [] abc = new JTextField [nbLignes * nbColonnes];
-//        nouvelleMatrice = new TP3("baba", nbLignes, nbColonnes);
-//        zone1.add(grilleMatrice);
-//        
-//        cellule6[i] = new JTextField();
-//        cellule6[i].setFont(new Font("Courier", Font.PLAIN, 12));
-//        cellule6[i].setText(Double.toString(tableauMatrice.get(j).elements.get(i)));
-//        cellule6[i].setHorizontalAlignment(SwingConstants.LEFT);
-//        cellule6[i].setBackground(Color.YELLOW);
-//        grilleMatrice.add(cellule6[i]);
-//        
-//    }
-    
-//    private void affichageZone2(JPanel panel, int i) {
-//        cellules2[i] = new JTextField();
-//        cellules2[i].setFont(new Font("Courier", Font.PLAIN, 12));
-//        cellules2[i].setText(Double.toString(nouvelleMatrice2.elements.get(i)));
-//        cellules2[i].setHorizontalAlignment(SwingConstants.LEFT);
-//        cellules2[i].setBackground(Color.YELLOW);
-//        panel.add(cellules2[i]);
-//    }
+   
     private void transposee2(){
         TP3 m = new TP3(nouvelleMatrice2.nom,this.nbColonnes2,this.nbLignes2);
         
@@ -1886,6 +1932,41 @@ public class TP3 extends WindowAdapter implements ActionListener {
             
         }
     }
+    private void editer() {
+        for (int i = 0; i < cellules.length; i++) {
+            cellules[i].setEditable(true);
+            cellules[i].setBackground(Color.YELLOW);
+        }
+        boutonEditer.setVisible(false);
+        boutonSauvegarder = new JButton("Sauvegarder");
+        boutonSauvegarder.setBackground(Color.WHITE);
+        boutonSauvegarder.setBounds((zone1.getWidth()/4) + 7, 300, 90, 25);
+        boutonSauvegarder.setBorder(null);
+        boutonSauvegarder.setEnabled(true);
+        zone1.add(boutonSauvegarder);
+        boutonSauvegarder.setVisible(true);
+        boutonLigneMoins.setEnabled(true);
+        boutonLignePlus.setEnabled(true);
+        boutonColonnePlus.setEnabled(true);
+        boutonColonneMoins.setEnabled(true);
+        boutonTransposee.setEnabled(false);
+        multReponse.setEditable(false);
+        ecouteurBoutonSauvegarder = new ActionListener() {           
+            @Override
+            public void actionPerformed(ActionEvent evenement) {
+
+                sauvegarder();
+            }
+        };
+          
+        boutonSauvegarder.addActionListener(ecouteurBoutonSauvegarder);
+    }
+    private void editer2() {
+        for (int i = 0; i < cellules.length; i++) {
+            cellules2[i].setEditable(false);
+            cellules2[i].setBackground(Color.YELLOW);
+        }
+    }
     private void supprimerMatrice() {
         for (int i = 0; i < tableauMatrice.size(); i++) {
             if (listeMatrices.getSelectedItem() == tableauMatrice.get(i).nom) {
@@ -1893,6 +1974,33 @@ public class TP3 extends WindowAdapter implements ActionListener {
                 tableauMatrice.remove(i);
                 listeMatrices.removeItem(i);
                 listeMatrices2.removeItem(i);
+                System.out.println();
+                listeMatrices.setVisible(true);
+                listeMatricesPlus = new JComboBox(getListeNomMatrice(tableauMatrice));
+                listeMatricesPlus.setBounds((zone1.getWidth()/4) - 10, 25, 110, 25);
+                
+                zone1.add(listeMatricesPlus);
+
+                listeMatrices = listeMatricesPlus;
+                texteZone1Depart.setVisible(false);
+                listeMatrices.setVisible(true);
+                grilleMatrice.setVisible(false);
+                //listeMatrices.getComponent(i);
+            }
+        }
+    }
+    private void supprimerMatrice2() {
+        for (int i = 0; i < tableauMatrice.size(); i++) {
+            if (listeMatrices2.getSelectedItem() == tableauMatrice.get(i).nom) {
+                listeMatrices.setVisible(false);
+                tableauMatrice.remove(i);
+                listeMatrices.removeItem(i);
+                listeMatrices2.removeItem(i);
+                listeMatrices2 = new JComboBox(getListeNomMatrice(tableauMatrice));
+                listeMatrices2.setBounds((zone1.getWidth()/4) - 10, 25, 110, 25);
+                listeMatrices2.setBackground(Color.WHITE);
+                zone2.add(listeMatrices);
+                listeMatrices2.setVisible(true);
                 listeMatrices = new JComboBox(getListeNomMatrice(tableauMatrice));
                 listeMatrices.setBounds((zone1.getWidth()/4) - 10, 25, 110, 25);
                 listeMatrices.setBackground(Color.WHITE);
