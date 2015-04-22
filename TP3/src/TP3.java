@@ -522,6 +522,13 @@ public class TP3 extends WindowAdapter implements ActionListener {
                                     boutonEditer.setEnabled(true);
                                     boutonTransposee.setEnabled(true);
                                     multReponse.setEnabled(true);
+                                    boutonSauvegarder.setVisible(false);
+                                    boutonEditer.setVisible(true);
+                                    boutonColonneMoins.setEnabled(false);
+                                    boutonColonnePlus.setEnabled(false);
+                                    boutonLigneMoins.setEnabled(false);
+                                    boutonLignePlus.setEnabled(false);
+                                    
                                  }
                             }
                         }
@@ -575,6 +582,14 @@ public class TP3 extends WindowAdapter implements ActionListener {
                                         nouvelleMatrice2.elements.add(Double.parseDouble(cellules2[j].getText()));
                                     }
                                     boutonEditer2.setEnabled(true);
+                                    boutonTransposee2.setEnabled(true);
+                                    multReponse2.setEnabled(true);
+                                    boutonSauvegarder2.setVisible(false);
+                                    boutonEditer2.setVisible(true);
+                                    boutonColonneMoins2.setEnabled(false);
+                                    boutonColonnePlus2.setEnabled(false);
+                                    boutonLigneMoins2.setEnabled(false);
+                                    boutonLignePlus2.setEnabled(false);
                                  }
                             }
                         }
